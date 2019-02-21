@@ -9,7 +9,7 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
 {
     [Tooltip("Rotation max speed controls amount of rotation.")]
     [SerializeField]
-    private float RotationSensitivity = 5.0f;
+    private float RotationSensitivity = 2f;
 
     private bool isNavigationEnabled = true;
     public bool IsNavigationEnabled
@@ -84,11 +84,11 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
     void ISpeechHandler.OnSpeechKeywordRecognized(SpeechEventData eventData)
     {
         
-        if (eventData.RecognizedText.Equals("Move Object"))
+        if (eventData.RecognizedText.Equals("Move Model"))
         {
             isNavigationEnabled = false;
         }
-        else if (eventData.RecognizedText.Equals("Rotate Object"))
+        else if (eventData.RecognizedText.Equals("Rotate Model"))
         {
             isNavigationEnabled = true;
         }
