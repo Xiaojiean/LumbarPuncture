@@ -29,12 +29,10 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
     {
         if (isNavigationEnabled)
         {
-            /* TODO: DEVELOPER CODING EXERCISE 2.c */
-           
-            // 2.c: Calculate a float rotationFactor based on eventData's NormalizedOffset.x multiplied by RotationSensitivity.
-            // This will help control the amount of rotation.
+                       
+            //  float rotationFactor based on eventData's NormalizedOffset.x multiplied by RotationSensitivity
             float rotationFactor = eventData.NormalizedOffset.x * RotationSensitivity;
-            System.Diagnostics.Debug.Write("test");
+            
             // 2.c: transform.Rotate around the Y axis using rotationFactor.
             transform.Rotate(new Vector3(0, -1 * rotationFactor, 0));
         }
@@ -55,7 +53,6 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         if (!isNavigationEnabled)
         {
             InputManager.Instance.PushModalInputHandler(gameObject);
-
             manipulationOriginalPosition = transform.position;
         }
     }
@@ -64,9 +61,7 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
     {
         if (!isNavigationEnabled)
         {
-            /* TODO: DEVELOPER CODING EXERCISE 4.a */
-
-            // 4.a: Make this transform's position be the manipulationOriginalPosition + eventData.CumulativeDelta
+            // transform's position be the manipulationOriginalPosition + eventData.CumulativeDelta
             transform.position = manipulationOriginalPosition + eventData.CumulativeDelta;
         }
     }
@@ -92,11 +87,60 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         {
             isNavigationEnabled = true;
         }
+        else if (eventData.RecognizedText.Equals("Zoom In"))
+        {
+            
+            manipulateSize(true);
+        }
+        else if (eventData.RecognizedText.Equals("Zoom Out"))
+        {
+            
+            manipulateSize(false);
+        }
+        else if (eventData.RecognizedText.Equals("Set Birdseye"))
+        {
+            manipulateRotation(true);
+        }
+        else if (eventData.RecognizedText.Equals("Set Normal"))
+        {
+            manipulateRotation(false);
+        }
         else
         {
             return;
         }
 
         eventData.Use();
+    }
+
+    void manipulateSize(bool increase)
+    {
+        float modifier;
+        if (increase)
+        {
+            modifier = 0.3f;
+        }
+        else
+        {
+            modifier = -0.3f;
+        }
+
+        transform.localScale += new Vector3(modifier, modifier, modifier);
+    }
+
+    void manipulateRotation(bool bird) 
+    {
+        float xRotation = 0; 
+        if (bird)
+        {
+            xRotation = -90;
+        }
+        else
+        {
+            xRotation = 90;
+        }
+        
+        Vector3 vec = new Vector3(xRotation, 0, 0);
+        transform.Rotate(vec);
     }
 }
