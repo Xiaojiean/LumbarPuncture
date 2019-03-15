@@ -11,8 +11,6 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
     [SerializeField]
     private float RotationSensitivity = 2f;
 
- 
-
     private bool isNavigationEnabled = true;
     public bool IsNavigationEnabled
     {
@@ -99,9 +97,13 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
             
             manipulateSize(false);
         }
-        else if (eventData.RecognizedText.Equals("Flip Model"))
+        else if (eventData.RecognizedText.Equals("Set Birdseye"))
         {
             manipulateRotation(true);
+        }
+        else if (eventData.RecognizedText.Equals("Set Normal"))
+        {
+            manipulateRotation(false);
         }
         else
         {
@@ -116,14 +118,14 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         float modifier;
         if (increase)
         {
-            modifier = 1.25f;
+            modifier = 0.3f;
         }
         else
         {
-            modifier = 0.75f;
+            modifier = -0.3f;
         }
 
-        transform.localScale *= modifier;
+        transform.localScale += new Vector3(modifier, modifier, modifier);
     }
 
     void manipulateRotation(bool bird) 
@@ -131,7 +133,7 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         float xRotation = 0; 
         if (bird)
         {
-            xRotation = 90;
+            xRotation = -90;
         }
         else
         {
