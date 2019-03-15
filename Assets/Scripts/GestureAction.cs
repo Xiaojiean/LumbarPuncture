@@ -10,8 +10,37 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
     [Tooltip("Rotation max speed controls amount of rotation.")]
     [SerializeField]
     private float RotationSensitivity = 2f;
-
     private bool isNavigationEnabled = true;
+    private bool modelAxisRotation = true; //true for y, false for x;
+
+    private ModelManipulator model;
+
+    void Start()
+    {
+        model = GetComponent<ModelManipulator>();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown("="))
+        {
+            model.zoomIn();
+        }
+        else if (Input.GetKeyDown("-"))
+        {
+            model.zoomOut();
+        }
+        else if (Input.GetKeyDown("0")){
+            isNavigationEnabled = !isNavigationEnabled;
+        }
+        else if (Input.GetKeyDown("9")){
+            modelAxisRotation = !modelAxisRotation;
+        }
+
+    }
+
+
+
     public bool IsNavigationEnabled
     {
         get { return isNavigationEnabled; }
@@ -29,12 +58,17 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
     {
         if (isNavigationEnabled)
         {
-                       
-            //  float rotationFactor based on eventData's NormalizedOffset.x multiplied by RotationSensitivity
-            float rotationFactor = eventData.NormalizedOffset.x * RotationSensitivity;
-            
-            // 2.c: transform.Rotate around the Y axis using rotationFactor.
-            transform.Rotate(new Vector3(0, -1 * rotationFactor, 0));
+            if(modelAxisRotation)
+            {
+                float rotationFactor = eventData.NormalizedOffset.x * RotationSensitivity;
+                model.rotateModelContainer(0, -1 * rotationFactor, 0);
+            }
+            else
+            {
+                float rotationFactor = eventData.NormalizedOffset.x * RotationSensitivity;
+                model.rotateModel(1 * rotationFactor, 0, 0);
+            }      
+              
         }
     }
 
@@ -89,21 +123,11 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         }
         else if (eventData.RecognizedText.Equals("Zoom In"))
         {
-            
-            manipulateSize(true);
+            model.zoomIn();
         }
         else if (eventData.RecognizedText.Equals("Zoom Out"))
         {
-            
-            manipulateSize(false);
-        }
-        else if (eventData.RecognizedText.Equals("Set Birdseye"))
-        {
-            manipulateRotation(true);
-        }
-        else if (eventData.RecognizedText.Equals("Set Normal"))
-        {
-            manipulateRotation(false);
+            model.zoomOut();
         }
         else
         {
@@ -113,34 +137,5 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         eventData.Use();
     }
 
-    void manipulateSize(bool increase)
-    {
-        float modifier;
-        if (increase)
-        {
-            modifier = 0.3f;
-        }
-        else
-        {
-            modifier = -0.3f;
-        }
-
-        transform.localScale += new Vector3(modifier, modifier, modifier);
-    }
-
-    void manipulateRotation(bool bird) 
-    {
-        float xRotation = 0; 
-        if (bird)
-        {
-            xRotation = -90;
-        }
-        else
-        {
-            xRotation = 90;
-        }
-        
-        Vector3 vec = new Vector3(xRotation, 0, 0);
-        transform.Rotate(vec);
-    }
+ 
 }
