@@ -36,6 +36,14 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         else if (Input.GetKeyDown("9")){
             modelAxisRotation = !modelAxisRotation;
         }
+        else if (Input.GetKeyDown("]"))
+        {
+            model.addLayer();
+        }
+        else if (Input.GetKeyDown("["))
+        {
+            model.removeLayer();
+        }
 
     }
 
