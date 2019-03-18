@@ -67,7 +67,6 @@ public class ModelManipulator : MonoBehaviour {
     {
         layers[index].layer.SetActive(!layers[index].visible);
         layers[index].visible = !layers[index].visible;
-
     }
 
     public void addLayer()
@@ -93,7 +92,7 @@ public class ModelManipulator : MonoBehaviour {
             LayerID id = (LayerID)System.Enum.Parse(typeof(LayerID), layerName);
             toggleLayer((int)id);
         }
-        catch (ArgumentException e)
+        catch (ArgumentException)
         {
             Debug.Log("Invalid layer name!");
         }
