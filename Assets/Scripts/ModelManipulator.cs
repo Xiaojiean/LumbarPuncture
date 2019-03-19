@@ -12,9 +12,12 @@ public class ModelManipulator : MonoBehaviour {
 
     private bool exploded = false;
     private bool exploding = false;
+    private int animationNum = 0;
+
     private GameObject model;
     private List<Layer> layers;
     private int layerIndex;
+
     private enum LayerID {Spine, Nerves, Duramater, Arachnoid, Piamater};
     private class Layer{
         public GameObject layer;
@@ -120,19 +123,75 @@ public class ModelManipulator : MonoBehaviour {
         exploded = !exploded;
     }
 
-
-    IEnumerator moveSmooth(Transform objectMove, Vector3 start, Vector3 end, float duration)
+    public void move(Vector3 dest, float time)
     {
+        StartCoroutine(moveSmooth(model.transform,model.transform.localPosition, dest, time));
+    }
+
+
+    IEnumerator moveSmooth(Transform obj, Vector3 start, Vector3 end, float duration)
+    {
+        animationNum++;
         exploding = true;
         float counter = 0;
         while (counter < duration)
         {
             counter += Time.deltaTime;
-            objectMove.localPosition = Vector3.Lerp(start, end, counter/duration);
+            obj.localPosition = Vector3.Lerp(start, end, counter/duration);
             yield return new WaitForFixedUpdate();
         }
-        objectMove.localPosition = end;
+        obj.localPosition = end;
         exploding = false;
+        animationNum--;
     }
 
+    public void rotateSmooth(Vector3 direction, float angle, float time)
+    {
+        StartCoroutine(smoothRotate(model.transform,direction, angle, time));
+    }
+
+    IEnumerator smoothRotate(Transform obj, Vector3 axis, float angle, float duration)
+    {
+        animationNum++;
+        Quaternion target = obj.localRotation * Quaternion.Euler(axis * angle);
+        Quaternion start = obj.localRotation;
+
+        float counter = 0;
+        while (counter < duration)
+        {
+            counter += Time.deltaTime;
+            obj.localRotation = Quaternion.Lerp(start, target, counter/duration);
+            yield return new WaitForFixedUpdate();
+        }
+
+        obj.localRotation = target;
+        animationNum--;
+    }
+
+    public void zoomSmooth(float scale, float time)
+    {
+        StartCoroutine(smoothZoom(model.transform,scale, time));
+    }
+
+    IEnumerator smoothZoom(Transform obj,float scale, float duration)
+    {
+        animationNum++;
+        Vector3 target = obj.localScale * scale;
+        Vector3 start = obj.localScale;
+        float counter = 0;
+
+        while (counter < duration)
+        {
+            counter += Time.deltaTime;
+            obj.localScale = Vector3.Lerp(start, target, counter/duration);
+            yield return new WaitForFixedUpdate();
+        }
+        obj.localScale = target;
+        animationNum--;
+    }
+
+    public bool animationsRunning()
+    {
+        return animationNum != 0 ? true : false;
+    }
 }
