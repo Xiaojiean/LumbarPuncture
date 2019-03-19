@@ -44,6 +44,10 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         {
             model.removeLayer();
         }
+        else if (Input.GetKeyDown("8"))
+        {
+            model.explode();
+        }
 
     }
 

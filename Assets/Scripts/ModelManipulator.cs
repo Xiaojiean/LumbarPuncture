@@ -7,7 +7,11 @@ public class ModelManipulator : MonoBehaviour {
 
     
     public float reducedScale;
+    public float explodeTime;
+    public float zoomPercent;
 
+    private bool exploded = false;
+    private bool exploding = false;
     private GameObject model;
     private List<Layer> layers;
     private int layerIndex;
@@ -46,12 +50,12 @@ public class ModelManipulator : MonoBehaviour {
 
     public void zoomIn()
     {
-        this.transform.localScale *= 1.20f;
+        this.transform.localScale *= 1 + zoomPercent;
     }
 
     public void zoomOut()
     {
-        this.transform.localScale *= 0.80f;
+        this.transform.localScale *= 1 - zoomPercent;
     }
 
     public void rotateModel(float x,float y, float z)
@@ -86,7 +90,6 @@ public class ModelManipulator : MonoBehaviour {
 
     public void toggleIndividualLayer(string layerName)
     {
-        
         try
         {
             LayerID id = (LayerID)System.Enum.Parse(typeof(LayerID), layerName);
@@ -96,6 +99,40 @@ public class ModelManipulator : MonoBehaviour {
         {
             Debug.Log("Invalid layer name!");
         }
+    }
+
+    public void explode()
+    {
+        if (exploding) { return; }
+        for(int i = -2; i < 3; i++)
+        {
+            GameObject a = layers[i + 2].layer;
+            if (exploded)
+            {
+                StartCoroutine(translateSmooth(a.transform, a.transform.localPosition, new Vector3(0, 0, 0), explodeTime));  //Contract
+            }
+            else
+            {
+                //a.transform.Translate(new Vector3((i * 0.8f), 0, 0));
+                StartCoroutine(translateSmooth(a.transform, a.transform.localPosition, new Vector3(i * 200f, 0, 0), explodeTime)); //Explode
+            }
+        }
+        exploded = !exploded;
+    }
+
+
+    IEnumerator translateSmooth(Transform objectMove, Vector3 start, Vector3 end, float duration)
+    {
+        exploding = true;
+        float counter = 0;
+        while (counter < duration)
+        {
+            counter += Time.deltaTime;
+            objectMove.localPosition = Vector3.Lerp(start, end, counter/duration);
+            yield return new WaitForFixedUpdate(); ;         // Leave the routine and return here in the next frame
+        }
+        objectMove.transform.localPosition = end;
+        exploding = false;
     }
 
 }
