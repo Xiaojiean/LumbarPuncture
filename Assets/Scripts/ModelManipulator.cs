@@ -50,12 +50,12 @@ public class ModelManipulator : MonoBehaviour {
 
     public void zoomIn()
     {
-        this.transform.localScale *= 1 + zoomPercent;
+        modifyModelScale(1 + zoomPercent);
     }
 
     public void zoomOut()
     {
-        this.transform.localScale *= 1 - zoomPercent;
+        modifyModelScale(1 - zoomPercent);
     }
 
     public void rotateModel(float x,float y, float z)
@@ -109,19 +109,19 @@ public class ModelManipulator : MonoBehaviour {
             GameObject a = layers[i + 2].layer;
             if (exploded)
             {
-                StartCoroutine(translateSmooth(a.transform, a.transform.localPosition, new Vector3(0, 0, 0), explodeTime));  //Contract
+                StartCoroutine(moveSmooth(a.transform, a.transform.localPosition, new Vector3(0, 0, 0), explodeTime));  //Contract
             }
             else
             {
                 //a.transform.Translate(new Vector3((i * 0.8f), 0, 0));
-                StartCoroutine(translateSmooth(a.transform, a.transform.localPosition, new Vector3(i * 200f, 0, 0), explodeTime)); //Explode
+                StartCoroutine(moveSmooth(a.transform, a.transform.localPosition, new Vector3(i * 200f, 0, 0), explodeTime)); //Explode
             }
         }
         exploded = !exploded;
     }
 
 
-    IEnumerator translateSmooth(Transform objectMove, Vector3 start, Vector3 end, float duration)
+    IEnumerator moveSmooth(Transform objectMove, Vector3 start, Vector3 end, float duration)
     {
         exploding = true;
         float counter = 0;
@@ -129,9 +129,9 @@ public class ModelManipulator : MonoBehaviour {
         {
             counter += Time.deltaTime;
             objectMove.localPosition = Vector3.Lerp(start, end, counter/duration);
-            yield return new WaitForFixedUpdate(); ;         // Leave the routine and return here in the next frame
+            yield return new WaitForFixedUpdate();
         }
-        objectMove.transform.localPosition = end;
+        objectMove.localPosition = end;
         exploding = false;
     }
 
