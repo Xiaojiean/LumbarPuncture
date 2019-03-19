@@ -57,7 +57,7 @@ public class NeedleManipluator : MonoBehaviour {
         while (counter < duration)
         {
             counter += Time.deltaTime;
-            needle.transform.localRotation = Quaternion.Slerp(transform.localRotation, target, counter / duration);
+            needle.transform.localRotation = Quaternion.Slerp(needle.transform.localRotation, target, counter / duration);
             yield return new WaitForFixedUpdate();
         }
 
