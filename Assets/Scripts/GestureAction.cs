@@ -10,25 +10,35 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
     [Tooltip("Rotation max speed controls amount of rotation.")]
     [SerializeField]
     private float RotationSensitivity = 2f;
+    public float reducedScale;
     private bool isNavigationEnabled = true;
     private bool modelAxisRotation = true; //true for y, false for x;
+    
 
-    private ModelManipulator model;
+    private ModelManipulator modelManipulator;
+    private ObjectManipulator manipulator;
+    private GameObject model;
+
+    private Vector3 manipulationOriginalPosition = Vector3.zero;
 
     void Start()
     {
-        model = GetComponent<ModelManipulator>();
+        modelManipulator = GetComponent<ModelManipulator>();
+        manipulator = GetComponent<ObjectManipulator>();
+        model = transform.Find("ModelContainer").gameObject;
+
+        manipulator.scale(model.transform,reducedScale);
     }
 
     void Update()
     {
         if (Input.GetKeyDown("="))
         {
-            model.zoomIn();
+            manipulator.zoomSmooth(model.transform,1.2f,0.5f);
         }
         else if (Input.GetKeyDown("-"))
         {
-            model.zoomOut();
+            manipulator.zoomSmooth(model.transform, 0.8f, 0.5f);
         }
         else if (Input.GetKeyDown("0")){
             isNavigationEnabled = !isNavigationEnabled;
@@ -38,17 +48,16 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         }
         else if (Input.GetKeyDown("]"))
         {
-            model.addLayer();
+            modelManipulator.addLayer();
         }
         else if (Input.GetKeyDown("["))
         {
-            model.removeLayer();
+            modelManipulator.removeLayer();
         }
         else if (Input.GetKeyDown("8"))
         {
-            model.explode();
+            modelManipulator.explode();
         }
-
     }
 
 
@@ -59,7 +68,7 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         set { isNavigationEnabled = value; }
     }
 
-    private Vector3 manipulationOriginalPosition = Vector3.zero;
+    
 
     void INavigationHandler.OnNavigationStarted(NavigationEventData eventData)
     {
@@ -68,19 +77,20 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
 
     void INavigationHandler.OnNavigationUpdated(NavigationEventData eventData)
     {
+        float rotationFactor;
         if (isNavigationEnabled)
         {
-            if(modelAxisRotation)
+            
+            if (modelAxisRotation)
             {
-                float rotationFactor = eventData.NormalizedOffset.x * RotationSensitivity;
-                model.rotateModelContainer(0, -1 * rotationFactor, 0);
+                rotationFactor = eventData.NormalizedOffset.x * RotationSensitivity;
+                manipulator.rotate(transform, new Vector3(0, -1 * rotationFactor, 0));
             }
             else
             {
-                float rotationFactor = eventData.NormalizedOffset.x * RotationSensitivity;
-                model.rotateModel(1 * rotationFactor, 0, 0);
-            }      
-              
+                rotationFactor = eventData.NormalizedOffset.x * RotationSensitivity;
+                manipulator.rotate(model.transform, new Vector3(1 * rotationFactor, 0, 0));
+            } 
         }
     }
 
@@ -135,11 +145,11 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         }
         else if (eventData.RecognizedText.Equals("Zoom In"))
         {
-            model.zoomIn();
+            manipulator.zoomSmooth(model.transform, 1.2f, 0.5f);
         }
         else if (eventData.RecognizedText.Equals("Zoom Out"))
         {
-            model.zoomOut();
+            manipulator.zoomSmooth(model.transform, 0.8f, 0.5f);
         }
         else
         {

@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class ModelManipulator : MonoBehaviour {
 
-    
-    public float reducedScale;
     public float explodeTime;
-    public float zoomPercent;
 
     private bool exploded = false;
     private bool exploding = false;
     private int animationNum = 0;
 
     private GameObject model;
+
+    private ObjectManipulator manipulator;
+
     private List<Layer> layers;
     private int layerIndex;
 
@@ -32,7 +32,8 @@ public class ModelManipulator : MonoBehaviour {
     // Use this for initialization
     void Start () {
         model = transform.Find("ModelContainer").gameObject;
-        modifyModelScale(reducedScale);
+        manipulator = GetComponent<ObjectManipulator>();
+
         layers = new List<Layer>();
         getLayers();
         layerIndex = 0;
@@ -46,29 +47,6 @@ public class ModelManipulator : MonoBehaviour {
         }
     }
 
-    private void modifyModelScale(float newSize)
-    {
-        model.transform.localScale *= newSize;
-    }
-
-    public void zoomIn()
-    {
-        modifyModelScale(1 + zoomPercent);
-    }
-
-    public void zoomOut()
-    {
-        modifyModelScale(1 - zoomPercent);
-    }
-
-    public void rotateModel(float x,float y, float z)
-    {
-        model.transform.Rotate(new Vector3(x, y, z));
-    }
-    public void rotateModelContainer(float x, float y, float z)
-    {
-        this.transform.Rotate(new Vector3(x, y, z));
-    }
 
     private void toggleLayer(int index)
     {
@@ -112,86 +90,16 @@ public class ModelManipulator : MonoBehaviour {
             GameObject a = layers[i + 2].layer;
             if (exploded)
             {
-                StartCoroutine(moveSmooth(a.transform, a.transform.localPosition, new Vector3(0, 0, 0), explodeTime));  //Contract
+               // StartCoroutine(moveSmooth(a.transform, a.transform.localPosition, new Vector3(0, 0, 0), explodeTime));  //Contract
+               manipulator.moveSmooth(a.transform, new Vector3(0, 0, 0), explodeTime);
             }
             else
             {
-                //a.transform.Translate(new Vector3((i * 0.8f), 0, 0));
-                StartCoroutine(moveSmooth(a.transform, a.transform.localPosition, new Vector3(i * 200f, 0, 0), explodeTime)); //Explode
+             
+                manipulator.moveSmooth(a.transform, new Vector3(i * 200f, 0, 0), explodeTime);
             }
         }
         exploded = !exploded;
     }
-
-    public void move(Vector3 dest, float time)
-    {
-        StartCoroutine(moveSmooth(model.transform,model.transform.localPosition, dest, time));
-    }
-
-
-    IEnumerator moveSmooth(Transform obj, Vector3 start, Vector3 end, float duration)
-    {
-        animationNum++;
-        exploding = true;
-        float counter = 0;
-        while (counter < duration)
-        {
-            counter += Time.deltaTime;
-            obj.localPosition = Vector3.Lerp(start, end, counter/duration);
-            yield return new WaitForFixedUpdate();
-        }
-        obj.localPosition = end;
-        exploding = false;
-        animationNum--;
-    }
-
-    public void rotateSmooth(Vector3 direction, float angle, float time)
-    {
-        StartCoroutine(smoothRotate(model.transform,direction, angle, time));
-    }
-
-    IEnumerator smoothRotate(Transform obj, Vector3 axis, float angle, float duration)
-    {
-        animationNum++;
-        Quaternion target = obj.localRotation * Quaternion.Euler(axis * angle);
-        Quaternion start = obj.localRotation;
-
-        float counter = 0;
-        while (counter < duration)
-        {
-            counter += Time.deltaTime;
-            obj.localRotation = Quaternion.Lerp(start, target, counter/duration);
-            yield return new WaitForFixedUpdate();
-        }
-
-        obj.localRotation = target;
-        animationNum--;
-    }
-
-    public void zoomSmooth(float scale, float time)
-    {
-        StartCoroutine(smoothZoom(model.transform,scale, time));
-    }
-
-    IEnumerator smoothZoom(Transform obj,float scale, float duration)
-    {
-        animationNum++;
-        Vector3 target = obj.localScale * scale;
-        Vector3 start = obj.localScale;
-        float counter = 0;
-
-        while (counter < duration)
-        {
-            counter += Time.deltaTime;
-            obj.localScale = Vector3.Lerp(start, target, counter/duration);
-            yield return new WaitForFixedUpdate();
-        }
-        obj.localScale = target;
-        animationNum--;
-    }
-
-    public bool animationsRunning()
-    {
-        return animationNum != 0 ? true : false;
-    }
+  
 }
