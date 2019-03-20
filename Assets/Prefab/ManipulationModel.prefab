@@ -53,6 +53,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4376948526819354}
+  - component: {fileID: 114008228293186202}
   m_Layer: 0
   m_Name: duramaterlayer
   m_TagString: Untagged
@@ -119,6 +120,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4125532255186128}
+  - component: {fileID: 114610536096067120}
   m_Layer: 0
   m_Name: ModelContainer
   m_TagString: Untagged
@@ -134,6 +136,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4688600632235488}
+  - component: {fileID: 114825146173391332}
   m_Layer: 0
   m_Name: arachnoidlayer
   m_TagString: Untagged
@@ -166,6 +169,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4761698548614946}
+  - component: {fileID: 114811995561020888}
   m_Layer: 0
   m_Name: piamaterlayer
   m_TagString: Untagged
@@ -271,6 +275,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4061890002756226}
+  - component: {fileID: 114234834190171606}
   m_Layer: 0
   m_Name: centralnerves
   m_TagString: Untagged
@@ -522,6 +527,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4438983435679108}
+  - component: {fileID: 114917153795504526}
   m_Layer: 0
   m_Name: spine
   m_TagString: Untagged
@@ -2191,6 +2197,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1117120906213500}
   m_Mesh: {fileID: 4300028, guid: 4e7f5a66373497f4bb876e68f7e948f3, type: 3}
+--- !u!114 &114008228293186202
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1126212931353284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385b53990bf8a1d41841392e722dc791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114234834190171606
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1465967559657054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385b53990bf8a1d41841392e722dc791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114337331581635846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2209,6 +2237,17 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1407728635967444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385b53990bf8a1d41841392e722dc791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114610536096067120
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1143444054955516}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 385b53990bf8a1d41841392e722dc791, type: 3}
@@ -2241,6 +2280,28 @@ MonoBehaviour:
   - Keyword: Set Normal
     KeyCode: 0
   recognitionConfidenceLevel: 1
+--- !u!114 &114811995561020888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1358586417166212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385b53990bf8a1d41841392e722dc791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114825146173391332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165450935709568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385b53990bf8a1d41841392e722dc791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114852680953765804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2254,6 +2315,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotationSensitivity: 5
   reducedScale: 0.35
+--- !u!114 &114917153795504526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1855020533669948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385b53990bf8a1d41841392e722dc791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &136197021785260958
 CapsuleCollider:
   m_ObjectHideFlags: 1

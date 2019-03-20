@@ -8,87 +8,87 @@ public class ObjectManipulator : MonoBehaviour {
 
     public ObjectManipulator() { }
 
-    public void scale(Transform obj,float newSize)
+    public void scale(float newSize)
     {
 
-        obj.localScale *= newSize;
+        transform.localScale *= newSize;
     }
 
-    public void rotate(Transform obj, Vector3 rota)
+    public void rotate(Vector3 rota)
     {
-        obj.transform.Rotate(rota);
+        transform.Rotate(rota);
     }
 
-    public void move(Transform obj, Vector3 dest)
+    public void move(Vector3 dest)
     {
-        obj.localPosition = dest;
+        transform.localPosition = dest;
     }
 
 
-    public void moveSmooth(Transform obj, Vector3 dest, float time)
+    public void moveSmooth(Vector3 dest, float time)
     {
-        StartCoroutine(moveSmooth(obj,obj.transform.localPosition, dest, time));
+        StartCoroutine(moveSmooth(transform.localPosition, dest, time));
     }
 
-    public void setPosition(Transform obj, Vector3 dest)
+    public void setPosition(Vector3 dest)
     {
-        obj.transform.localPosition = dest;
+        transform.localPosition = dest;
     }
 
-    IEnumerator moveSmooth(Transform obj,Vector3 start, Vector3 end, float duration)
+    IEnumerator moveSmooth(Vector3 start, Vector3 end, float duration)
     {
         animationsRunning++;
         float counter = 0;
         while (counter < duration)
         {
             counter += Time.deltaTime;
-            obj.transform.localPosition = Vector3.Lerp(start, end, counter / duration);
+            transform.localPosition = Vector3.Lerp(start, end, counter / duration);
             yield return new WaitForFixedUpdate();
         }
-        obj.transform.localPosition = end;
+        transform.localPosition = end;
         animationsRunning--;
     }
-    public void rotateSmooth(Transform obj, Vector3 direction, float angle, float time)
+    public void rotateSmooth(Vector3 direction, float angle, float time)
     {
-        StartCoroutine(smoothRotate(obj, direction, angle, time));
+        StartCoroutine(smoothRotate(direction, angle, time));
     }
-    IEnumerator smoothRotate(Transform obj,Vector3 axis, float angle, float duration)
+    IEnumerator smoothRotate(Vector3 axis, float angle, float duration)
     {
-        Quaternion target = obj.transform.localRotation * Quaternion.Euler(axis * angle);
-        Quaternion start = obj.transform.localRotation;
+        Quaternion target = transform.localRotation * Quaternion.Euler(axis * angle);
+        Quaternion start = transform.localRotation;
         animationsRunning++;
         float counter = 0;
         while (counter < duration)
         {
             counter += Time.deltaTime;
-            obj.transform.localRotation = Quaternion.Lerp(start, target, counter / duration);
+            transform.localRotation = Quaternion.Lerp(start, target, counter / duration);
             yield return new WaitForFixedUpdate();
         }
 
-        obj.transform.localRotation = target;
+        transform.localRotation = target;
         animationsRunning--;
     }
 
-    public void zoomSmooth(Transform obj,float scale, float time)
+    public void zoomSmooth(float scale, float time)
     {
-        StartCoroutine(smoothZoom(obj,scale, time));
+        StartCoroutine(smoothZoom(scale, time));
     }
 
-    IEnumerator smoothZoom(Transform obj, float scale, float duration)
+    IEnumerator smoothZoom(float scale, float duration)
     {
-        Vector3 target = obj.transform.localScale * scale;
-        Vector3 start = obj.transform.localScale;
+        Vector3 target = transform.localScale * scale;
+        Vector3 start = transform.localScale;
         float counter = 0;
         animationsRunning++;
 
         while (counter < duration)
         {
             counter += Time.deltaTime;
-            obj.transform.localScale = Vector3.Slerp(start, target, counter / duration);
+            transform.localScale = Vector3.Slerp(start, target, counter / duration);
             yield return new WaitForFixedUpdate();
         }
 
-        obj.transform.localScale = target;
+        transform.localScale = target;
         animationsRunning--;
     }
 

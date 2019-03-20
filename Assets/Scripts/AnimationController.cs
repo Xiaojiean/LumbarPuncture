@@ -8,11 +8,10 @@ public class AnimationController : MonoBehaviour {
     private bool animating = false;
 
     ModelManipulator modelManipulator;
-    ObjectManipulator manipulator;
 
-    Transform model;
-    Transform needle;
-    Transform container;
+    ObjectManipulator model;
+    ObjectManipulator needle;
+    ObjectManipulator container;
 
 
     List<Action> animations;
@@ -21,12 +20,11 @@ public class AnimationController : MonoBehaviour {
     float timeS2 = 2f;
     float timeS3 = 2f;
 	void Start () {
-        manipulator = GetComponent<ObjectManipulator>();
-        modelManipulator = GetComponent<ModelManipulator>();
+        container = GetComponent<ObjectManipulator>();
+        model = transform.Find("ModelContainer").GetComponent<ObjectManipulator>();
+        needle = transform.Find("Needle").GetComponent<ObjectManipulator>();
 
-        model = transform.Find("ModelContainer");
-        needle = transform.Find("Needle");
-        container = transform;
+        modelManipulator = GetComponent<ModelManipulator>();
 
         resizeObjects();
 
@@ -44,8 +42,8 @@ public class AnimationController : MonoBehaviour {
 
     private void resizeObjects()
     {
-        manipulator.scale(model, 0.35f);
-        manipulator.scale(needle, 1);
+        model.scale(0.35f);
+        needle.scale(1);
     }
 	
 	// Update is called once per frame
@@ -68,26 +66,26 @@ public class AnimationController : MonoBehaviour {
     {
         Debug.Log("Start Animation");
         //rotate and move the spine to a suitable location
-        manipulator.rotateSmooth(model,Vector3.down, 135f, timeS1);
-        manipulator.moveSmooth(model,new Vector3(-0.6f, 0, 0), timeS1);
-        manipulator.zoomSmooth(model,2f, timeS1);
+        model.rotateSmooth(Vector3.down, 135f, timeS1);
+        model.moveSmooth(new Vector3(-0.6f, 0, 0), timeS1);
+        model.zoomSmooth(2f, timeS1);
         //roate and move the needle
-        manipulator.rotateSmooth(needle,Vector3.forward, 60f, timeS1);
-        manipulator.moveSmooth(needle,new Vector3(0.5f, -0.5f, 0.18f), timeS1);
+        needle.rotateSmooth(Vector3.forward, 240f, timeS1);
+        needle.moveSmooth(new Vector3(0.5f, -0.5f, 0.18f), timeS1);
     }
 
     private void stageTwo()
     {
         //Rotate entire model and zoom out slightly
-        manipulator.rotateSmooth(container, Vector3.up, 95f, timeS2);
-        manipulator.zoomSmooth(container, 0.8f, timeS2);
+        container.rotateSmooth(Vector3.up, 95f, timeS2);
+        container.zoomSmooth(0.8f, timeS2);
 
     }
 
     private void stageThree()
     {
-        manipulator.moveSmooth(needle, new Vector3(0, -0.3f, 0.18f), timeS3);
-        manipulator.rotateSmooth(container, Vector3.up, 90f, timeS3);
+        needle.moveSmooth(new Vector3(0, -0.3f, 0.18f), timeS3);
+        container.rotateSmooth(Vector3.up, 90f, timeS3);
     }
 
     IEnumerator animationLoop()
@@ -99,7 +97,7 @@ public class AnimationController : MonoBehaviour {
             wait = true;
             while (wait)
             {
-                if(!manipulator.animationRunning()) //CHANGE
+                if(!needle.animationRunning() && !model.animationRunning() && !container.animationRunning()) 
                 {
                     stage();
                     wait = false;

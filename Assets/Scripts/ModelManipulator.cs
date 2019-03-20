@@ -13,8 +13,6 @@ public class ModelManipulator : MonoBehaviour {
 
     private GameObject model;
 
-    private ObjectManipulator manipulator;
-
     private List<Layer> layers;
     private int layerIndex;
 
@@ -32,7 +30,6 @@ public class ModelManipulator : MonoBehaviour {
     // Use this for initialization
     void Start () {
         model = transform.Find("ModelContainer").gameObject;
-        manipulator = GetComponent<ObjectManipulator>();
 
         layers = new List<Layer>();
         getLayers();
@@ -88,15 +85,14 @@ public class ModelManipulator : MonoBehaviour {
         for(int i = -2; i < 3; i++)
         {
             GameObject a = layers[i + 2].layer;
+            ObjectManipulator om = a.GetComponent<ObjectManipulator>();
             if (exploded)
             {
-               // StartCoroutine(moveSmooth(a.transform, a.transform.localPosition, new Vector3(0, 0, 0), explodeTime));  //Contract
-               manipulator.moveSmooth(a.transform, new Vector3(0, 0, 0), explodeTime);
+               om.moveSmooth(new Vector3(0, 0, 0), explodeTime);
             }
             else
             {
-             
-                manipulator.moveSmooth(a.transform, new Vector3(i * 200f, 0, 0), explodeTime);
+               om.moveSmooth(new Vector3(i * 200f, 0, 0), explodeTime);
             }
         }
         exploded = !exploded;

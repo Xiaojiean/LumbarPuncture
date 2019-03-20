@@ -16,29 +16,32 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
     
 
     private ModelManipulator modelManipulator;
-    private ObjectManipulator manipulator;
-    private GameObject model;
+
+    private ObjectManipulator container;
+    private ObjectManipulator model;
+
 
     private Vector3 manipulationOriginalPosition = Vector3.zero;
 
     void Start()
     {
         modelManipulator = GetComponent<ModelManipulator>();
-        manipulator = GetComponent<ObjectManipulator>();
-        model = transform.Find("ModelContainer").gameObject;
 
-        manipulator.scale(model.transform,reducedScale);
+        container = GetComponent<ObjectManipulator>();
+        model = transform.Find("ModelContainer").GetComponent<ObjectManipulator>();
+
+        model.scale(reducedScale);
     }
 
     void Update()
     {
         if (Input.GetKeyDown("="))
         {
-            manipulator.zoomSmooth(model.transform,1.2f,0.5f);
+            model.zoomSmooth(1.2f,0.5f);
         }
         else if (Input.GetKeyDown("-"))
         {
-            manipulator.zoomSmooth(model.transform, 0.8f, 0.5f);
+            model.zoomSmooth(0.8f, 0.5f);
         }
         else if (Input.GetKeyDown("0")){
             isNavigationEnabled = !isNavigationEnabled;
@@ -84,12 +87,12 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
             if (modelAxisRotation)
             {
                 rotationFactor = eventData.NormalizedOffset.x * RotationSensitivity;
-                manipulator.rotate(transform, new Vector3(0, -1 * rotationFactor, 0));
+                container.rotate(new Vector3(0, -1 * rotationFactor, 0));
             }
             else
             {
-                rotationFactor = eventData.NormalizedOffset.x * RotationSensitivity;
-                manipulator.rotate(model.transform, new Vector3(1 * rotationFactor, 0, 0));
+                rotationFactor = -eventData.NormalizedOffset.x * RotationSensitivity;
+                model.rotate(new Vector3(1 * rotationFactor, 0, 0));
             } 
         }
     }
@@ -145,11 +148,11 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         }
         else if (eventData.RecognizedText.Equals("Zoom In"))
         {
-            manipulator.zoomSmooth(model.transform, 1.2f, 0.5f);
+            model.zoomSmooth(1.2f, 0.5f);
         }
         else if (eventData.RecognizedText.Equals("Zoom Out"))
         {
-            manipulator.zoomSmooth(model.transform, 0.8f, 0.5f);
+            model.zoomSmooth(0.8f, 0.5f);
         }
         else
         {
