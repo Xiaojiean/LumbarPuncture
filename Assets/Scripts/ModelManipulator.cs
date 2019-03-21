@@ -18,11 +18,13 @@ public class ModelManipulator : MonoBehaviour {
     private enum LayerID {Spine, Nerves, Duramater, Arachnoid, Piamater};
     private class Layer{
         public GameObject layer;
+        public List<TransparencyManipulator> transparencyManipulators;
         public bool visible;
-        public Layer(GameObject go, bool vis)
+        public Layer(GameObject go,List<TransparencyManipulator> a, bool vis)
         {
             layer = go;
             visible = vis;
+            transparencyManipulators = a;
         }
     }
 
@@ -39,7 +41,13 @@ public class ModelManipulator : MonoBehaviour {
     {
         foreach (Transform child in model.transform)
         {
-            layers.Add(new Layer(child.gameObject, true));
+            List<TransparencyManipulator> tmp = new List<TransparencyManipulator>();
+            foreach(Transform a in child.transform)
+            {
+                TransparencyManipulator tm = a.gameObject.AddComponent<TransparencyManipulator>();
+                tmp.Add(tm);
+            }
+            layers.Add(new Layer(child.gameObject, tmp ,true));
         }
     }
 
@@ -97,4 +105,27 @@ public class ModelManipulator : MonoBehaviour {
         exploded = !exploded;
     }
 
+    public void fadeIndividualLayer(string layerName, float fadeAmount, float time)
+    {
+        try
+        {
+            LayerID id = (LayerID)System.Enum.Parse(typeof(LayerID), layerName);
+            fade((int)id, fadeAmount, time);
+        }
+        catch (ArgumentException)
+        {
+            Debug.Log("Invalid layer name!");
+        }
+    }
+
+
+    private void fade(int index, float alpha, float time)
+    {
+        List<TransparencyManipulator> transpManList = layers[index].transparencyManipulators;
+
+        foreach(TransparencyManipulator t in transpManList)
+        {
+            t.fade(alpha, time);
+        }
+    }
 }

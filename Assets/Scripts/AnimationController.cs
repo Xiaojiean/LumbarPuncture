@@ -17,20 +17,22 @@ public class AnimationController : MonoBehaviour {
 
     List<Action> animations;
 
-    float timeS1 = 2f; //should be 2
-    float timeS2 = 2f;
-    float timeS3 = 2f;
-    float timeS4 = 1f;
-    float timeS5 = 2f;
-    float timeS6 = 1.7f; 
-    float timeS7 = 1f;
-    float timeS8 = 1f;
-	void Start () {
+    float timeS1 = 0.2f; //should be 2
+    float timeS2 = 0.2f;
+    float timeS3 = 0.2f;
+    float timeS4 = 0.1f;
+    float timeS5 = 0.2f;
+    float timeS6 = 0.1f;//1.7f; 
+    float timeS7 = 0.1f;
+    float timeS8 = 0.1f;
+    float timeS9 = 0.1f;
+    float timeS10 = 5f;
+
+    void Start () {
         container = GetComponent<ObjectManipulator>();
         model = transform.Find("ModelContainer").GetComponent<ObjectManipulator>();
         syringe = transform.Find("Syringe").GetComponent<ObjectManipulator>();
         needle = transform.Find("Syringe").Find("Needle").GetComponent<ObjectManipulator>();
-
         modelManipulator = GetComponent<ModelManipulator>();
 
         resizeObjects();
@@ -38,7 +40,6 @@ public class AnimationController : MonoBehaviour {
         animations = new List<Action>();
         populateQueue();
 
-        
 	}
 
     private void populateQueue()
@@ -49,15 +50,10 @@ public class AnimationController : MonoBehaviour {
         animations.Add(() => stageFour());
         animations.Add(() => stageFive());
         animations.Add(() => stageSix());
-        animations.Add(() => modelManipulator.removeLayer());
         animations.Add(() => stageSeven());
-        animations.Add(() => modelManipulator.removeLayer());
         animations.Add(() => stageEight());
-        animations.Add(() => modelManipulator.removeLayer());
-        animations.Add(() => stageEight());
-        // animations.Add(() => stage());
-        
-        
+        animations.Add(() => stageNine());
+        animations.Add(() => stageTen());
     }
 
     private void resizeObjects()
@@ -69,7 +65,7 @@ public class AnimationController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Return) && !animating)
-        {
+        {           
             animationStart();
         }
 
@@ -83,7 +79,7 @@ public class AnimationController : MonoBehaviour {
 
     private void stageOne() 
     {
-        Debug.Log("Start Animation");
+        
         //rotate and move the spine to a suitable location
         model.rotateSmooth(Vector3.down, 135f, timeS1);
         model.moveSmooth(new Vector3(-0.6f, 0, 0), timeS1);
@@ -116,8 +112,8 @@ public class AnimationController : MonoBehaviour {
 
     private void stageFive()
     {
-        //remove one layer and center model
-        modelManipulator.removeLayer();
+        //start to remove spine layer and center model
+        modelManipulator.fadeIndividualLayer("Spine", 0.5f, timeS5 / 2);
         container.moveSmooth(new Vector3(container.getXPos() -1.2f, container.getYPos(), container.getZPos()), timeS5);
         container.zoomSmooth(1.5f, timeS5);
     }
@@ -125,19 +121,36 @@ public class AnimationController : MonoBehaviour {
     private void stageSix()
     {
         //show needle move towards spine
+        modelManipulator.fadeIndividualLayer("Spine", 0f, timeS6 * 0.8f);
         needle.moveSmooth(new Vector3(needle.getXPos(), 2.2f, needle.getZPos()), timeS6);
     }
 
-    private void stageSeven() //show muscle layer and then move in more
+    private void stageSeven() //move needle in more
     {
-        needle.moveSmooth(new Vector3(needle.getXPos(), needle.getYPos() - 0.2f, needle.getZPos()), timeS7);
+        needle.moveSmooth(new Vector3(needle.getXPos(), needle.getYPos() - 0.25f, needle.getZPos()), timeS7);
+        modelManipulator.fadeIndividualLayer("Duramater", 0f, timeS7 * 0.8f);
     }
 
     private void stageEight() //moves needle slightly more in
     {
+        modelManipulator.fadeIndividualLayer("Arachnoid", 0f, timeS8 * 0.8f);
         needle.moveSmooth(new Vector3(needle.getXPos(), needle.getYPos() - 0.2f, needle.getZPos()), timeS8);
         container.moveSmooth(new Vector3(container.getXPos() - 0.7f, container.getYPos(), container.getZPos()), timeS8);
         container.zoomSmooth(1.5f, timeS8);
+    }
+
+    private void stageNine() //moves needle slightly more in and shows how far it can go in the layer
+    {
+        modelManipulator.fadeIndividualLayer("Piamater", 0.3f, timeS9 / 2);
+        needle.moveSmooth(new Vector3(needle.getXPos(), needle.getYPos() - 0.8f, needle.getZPos()), timeS9);
+        container.moveSmooth(new Vector3(container.getXPos() - 0.7f, container.getYPos(), container.getZPos()), timeS9);
+        container.zoomSmooth(1.5f, timeS9);
+    }
+
+    private void stageTen()
+    {
+        container.rotateSmooth(Vector3.up, -90f, timeS10);
+        container.moveSmooth(new Vector3(container.getXPos() + 1.2f, container.getYPos() - 0.3f, container.getZPos()), timeS10);
     }
 
     IEnumerator animationLoop()
@@ -154,7 +167,7 @@ public class AnimationController : MonoBehaviour {
                     stage(); //Run relevant stage
                     wait = false;
                 }
-                yield return new WaitForSeconds(.1f);
+                yield return new WaitForSeconds(.05f);
             }    
         }
         animating = false;
