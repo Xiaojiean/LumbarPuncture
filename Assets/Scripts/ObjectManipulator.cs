@@ -6,7 +6,18 @@ public class ObjectManipulator : MonoBehaviour {
 
     private int animationsRunning = 0;
 
-    public ObjectManipulator() { }
+    public float getXPos()
+    {
+        return transform.localPosition.x;
+    }
+    public float getYPos()
+    {
+        return transform.localPosition.y;
+    }
+    public float getZPos()
+    {
+        return transform.localPosition.z;
+    }
 
     public void scale(float newSize)
     {

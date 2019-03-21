@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4973349914997638}
   - component: {fileID: 114440198253466572}
   m_Layer: 0
-  m_Name: Needle
+  m_Name: Syringe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -629,8 +629,9 @@ GameObject:
   - component: {fileID: 33057959363795026}
   - component: {fileID: 136657875912236906}
   - component: {fileID: 23231099672717006}
+  - component: {fileID: 114930862822142428}
   m_Layer: 0
-  m_Name: needle
+  m_Name: Needle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2466,6 +2467,17 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1206863706559010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385b53990bf8a1d41841392e722dc791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114930862822142428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1969080773214334}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 385b53990bf8a1d41841392e722dc791, type: 3}

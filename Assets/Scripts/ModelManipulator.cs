@@ -9,7 +9,6 @@ public class ModelManipulator : MonoBehaviour {
 
     private bool exploded = false;
     private bool exploding = false;
-    private int animationNum = 0;
 
     private GameObject model;
 
