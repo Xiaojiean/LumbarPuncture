@@ -37,6 +37,8 @@ public class AnimationController : MonoBehaviour {
 
         animations = new List<Action>();
         populateQueue();
+
+        
 	}
 
     private void populateQueue()
