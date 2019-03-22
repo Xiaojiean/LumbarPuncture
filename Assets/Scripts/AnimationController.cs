@@ -17,15 +17,15 @@ public class AnimationController : MonoBehaviour {
 
     List<Action> animations;
 
-    float timeS1 = 0.2f; //should be 2
-    float timeS2 = 0.2f;
-    float timeS3 = 0.2f;
-    float timeS4 = 0.1f;
-    float timeS5 = 0.2f;
-    float timeS6 = 0.1f;//1.7f; 
-    float timeS7 = 0.1f;
-    float timeS8 = 0.1f;
-    float timeS9 = 0.1f;
+    float timeS1 = 3f; //should be 5
+    float timeS2 = 2f;
+    float timeS3 = 2f;
+    float timeS4 = 1f;
+    float timeS5 = 2f;
+    float timeS6 = 1.7f; 
+    float timeS7 = 2f;
+    float timeS8 = 2f;
+    float timeS9 = 3f;
     float timeS10 = 5f;
 
     void Start () {
@@ -76,6 +76,8 @@ public class AnimationController : MonoBehaviour {
         animating = true;
         StartCoroutine(animationLoop());
     }
+
+    
 
     private void stageOne() 
     {

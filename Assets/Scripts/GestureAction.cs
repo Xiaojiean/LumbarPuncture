@@ -154,6 +154,22 @@ public class GestureAction : MonoBehaviour, INavigationHandler, IManipulationHan
         {
             model.zoomSmooth(0.8f, 0.5f);
         }
+        else if (eventData.RecognizedText.Equals("Swap Axis"))
+        {
+            modelAxisRotation = !modelAxisRotation;
+        }
+        else if (eventData.RecognizedText.Equals("Explode Model"))
+        {
+            modelManipulator.explode();
+        }
+        else if (eventData.RecognizedText.Equals("Add layer"))
+        {
+            modelManipulator.addLayer();
+        }
+        else if (eventData.RecognizedText.Equals("Remove layer"))
+        {
+            modelManipulator.removeLayer();
+        }
         else
         {
             return;

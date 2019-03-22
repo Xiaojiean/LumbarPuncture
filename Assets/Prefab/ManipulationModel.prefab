@@ -2129,7 +2129,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1407728635967444}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c62fd7a55ba7458499b69cae18f83806, type: 3}
   m_Name: 
@@ -2145,9 +2145,13 @@ MonoBehaviour:
     KeyCode: 0
   - Keyword: Zoom Out
     KeyCode: 0
-  - Keyword: Set Birdseye
+  - Keyword: Swap Axis
     KeyCode: 0
-  - Keyword: Set Normal
+  - Keyword: Explode Model
+    KeyCode: 0
+  - Keyword: Add layer
+    KeyCode: 0
+  - Keyword: Remove layer
     KeyCode: 0
   recognitionConfidenceLevel: 1
 --- !u!114 &114786952921543738
