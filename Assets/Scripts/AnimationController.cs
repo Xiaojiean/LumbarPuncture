@@ -17,8 +17,8 @@ public class AnimationController : MonoBehaviour {
 
     List<Action> animations;
 
-    float timeS1 = 3f; //should be 5
-    float timeS2 = 2f;
+    float timeS1 = 0.3f; //should be 5
+    float timeS2 = 0.2f;
     float timeS3 = 2f;
     float timeS4 = 1f;
     float timeS5 = 2f;
@@ -115,7 +115,7 @@ public class AnimationController : MonoBehaviour {
     private void stageFive()
     {
         //start to remove spine layer and center model
-        modelManipulator.fadeIndividualLayer("Spine", 0.5f, timeS5 / 2);
+        
         container.moveSmooth(new Vector3(container.getXPos() -1.2f, container.getYPos(), container.getZPos()), timeS5);
         container.zoomSmooth(1.5f, timeS5);
     }

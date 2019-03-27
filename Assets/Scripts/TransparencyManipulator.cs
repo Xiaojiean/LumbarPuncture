@@ -6,29 +6,45 @@ public class TransparencyManipulator : MonoBehaviour {
 
     private MeshRenderer rend;
     private bool fading = false;
+
+    Material transparentMat;
+    Material normalMat;
     void Start()
     {
-        rend = GetComponent<MeshRenderer>();   
+        rend = GetComponent<MeshRenderer>();
+        normalMat = rend.material;
+        string name = (normalMat.name.Split(' ')[0]);
+        
+        if (name == "spinemesh")
+        {
+            transparentMat = Resources.Load<Material>("spinemesh_transp");
+        }
+        else
+        {
+            transparentMat = Resources.Load<Material>("yellow_transp"); 
+
+        }
     }
 
     public void fade(float alphaValue, float duration)
     {
         if (fading) { return; }
         fading = true;
-        changeModeToFade();
+        changeMat();
         StartCoroutine(smoothFade(alphaValue, duration));
     }
 
     //https://stackoverflow.com/questions/39366888/unity-mesh-renderer-wont-be-completely-transparent?rq=1 from user "Programmer"
-    private void changeModeToFade()
+    private void changeMat()
     {
-        rend.material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        /*rend.material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
         rend.material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
         rend.material.SetInt("_ZWrite", 0);
         rend.material.DisableKeyword("_ALPHATEST_ON");
         rend.material.EnableKeyword("_ALPHABLEND_ON");
         rend.material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-        rend.material.renderQueue = 3000;
+        rend.material.renderQueue = 3000;*/
+        rend.material = transparentMat;
 
     }
 
