@@ -17,8 +17,8 @@ public class AnimationController : MonoBehaviour {
 
     List<Action> animations;
 
-    float timeS1 = 0.3f; //should be 5
-    float timeS2 = 0.2f;
+    float timeS1 = 3f; //should be 5
+    float timeS2 = 2f;
     float timeS3 = 2f;
     float timeS4 = 1f;
     float timeS5 = 2f;
@@ -39,8 +39,9 @@ public class AnimationController : MonoBehaviour {
 
         animations = new List<Action>();
         populateQueue();
+        animationStart();
 
-	}
+    }
 
     private void populateQueue()
     {
@@ -64,11 +65,7 @@ public class AnimationController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Return) && !animating)
-        {           
-            animationStart();
-        }
-
+       
     }
 
     public void animationStart()
