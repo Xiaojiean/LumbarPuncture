@@ -12,6 +12,8 @@ public class ModelManipulator : MonoBehaviour {
 
     private GameObject model;
 
+    private TextToSpeechController ttsc;
+
     private List<Layer> layers;
     private int layerIndex;
 
@@ -31,7 +33,7 @@ public class ModelManipulator : MonoBehaviour {
     // Use this for initialization
     void Start () {
         model = transform.Find("ModelContainer").gameObject;
-
+        ttsc = GetComponent<TextToSpeechController>();
         layers = new List<Layer>();
         getLayers();
         layerIndex = 0;
@@ -54,6 +56,7 @@ public class ModelManipulator : MonoBehaviour {
 
     private void toggleLayer(int index)
     {
+        if(exploded || exploding) { return; }
         layers[index].layer.SetActive(!layers[index].visible);
         layers[index].visible = !layers[index].visible;
     }
@@ -70,6 +73,7 @@ public class ModelManipulator : MonoBehaviour {
     {
         if (layerIndex == 4) { return;}
         toggleLayer(layerIndex);
+        ttsc.startSpeech(layerIndex);
         layerIndex++;
     }
 
