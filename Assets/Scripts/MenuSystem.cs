@@ -39,11 +39,12 @@ public class MenuSystem : MonoBehaviour, ISpeechHandler {
     void changeMode(int mode)
     {
         Destroy(current);
-
+        transform.Find("Board").gameObject.SetActive(false);
         switch (mode)
         {
             case 0:
                 current = GameObject.Instantiate(manipulation);
+                transform.Find("Board").gameObject.SetActive(true);
                 break;
             case 1:
                 current =  GameObject.Instantiate(animationOb);
