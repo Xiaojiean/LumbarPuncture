@@ -129,12 +129,14 @@ public class AnimationController : MonoBehaviour {
 
     private void stageSeven() //move needle in more
     {
+        modelManipulator.toggleIndividualLayer("Spine");
         needle.moveSmooth(new Vector3(needle.getXPos(), needle.getYPos() - 0.25f, needle.getZPos()), timeS7);
         modelManipulator.fadeIndividualLayer("Duramater", 0f, timeS7 * 0.8f);
     }
 
     private void stageEight() //moves needle slightly more in
     {
+        modelManipulator.toggleIndividualLayer("Duramater");
         modelManipulator.fadeIndividualLayer("Arachnoid", 0f, timeS8 * 0.8f);
         needle.moveSmooth(new Vector3(needle.getXPos(), needle.getYPos() - 0.2f, needle.getZPos()), timeS8);
         container.moveSmooth(new Vector3(container.getXPos() - 0.7f, container.getYPos(), container.getZPos()), timeS8);
@@ -143,6 +145,7 @@ public class AnimationController : MonoBehaviour {
 
     private void stageNine() //moves needle slightly more in and shows how far it can go in the layer
     {
+        modelManipulator.toggleIndividualLayer("Arachnoid");
         modelManipulator.fadeIndividualLayer("Piamater", 0.3f, timeS9 / 2);
         needle.moveSmooth(new Vector3(needle.getXPos(), needle.getYPos() - 0.8f, needle.getZPos()), timeS9);
         container.moveSmooth(new Vector3(container.getXPos() - 0.7f, container.getYPos(), container.getZPos()), timeS9);
@@ -151,6 +154,7 @@ public class AnimationController : MonoBehaviour {
 
     private void stageTen()
     {
+        //modelManipulator.toggleIndividualLayer("Piamater");
         container.rotateSmooth(Vector3.up, -90f, timeS10);
         container.moveSmooth(new Vector3(container.getXPos() + 1.2f, container.getYPos() - 0.3f, container.getZPos()), timeS10);
     }

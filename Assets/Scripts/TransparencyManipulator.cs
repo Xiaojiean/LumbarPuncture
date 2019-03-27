@@ -22,7 +22,6 @@ public class TransparencyManipulator : MonoBehaviour {
     //https://stackoverflow.com/questions/39366888/unity-mesh-renderer-wont-be-completely-transparent?rq=1 from user "Programmer"
     private void changeModeToFade()
     {
-        rend.material.SetFloat("_Mode", 2);
         rend.material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
         rend.material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
         rend.material.SetInt("_ZWrite", 0);
@@ -30,6 +29,7 @@ public class TransparencyManipulator : MonoBehaviour {
         rend.material.EnableKeyword("_ALPHABLEND_ON");
         rend.material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
         rend.material.renderQueue = 3000;
+
     }
 
     IEnumerator smoothFade(float alphaDesired, float duration)
@@ -41,15 +41,20 @@ public class TransparencyManipulator : MonoBehaviour {
             rend.enabled = true;
         }
         Color original = rend.material.color;
+        Debug.Log(original.r);
+        Debug.Log(original.g);
+        Debug.Log(original.b);
 
-        while(counter < duration)
+        while (counter < duration)
         {
             counter += Time.deltaTime;
             float alpha = Mathf.Lerp(original.a, alphaDesired, counter / duration);
             rend.material.color = new Color(original.r, original.g, original.b, alpha);
+            
             yield return new WaitForFixedUpdate();
         }
         rend.material.color = new Color(original.r, original.g, original.b, alphaDesired);
+       
 
         fading = false;
     }
