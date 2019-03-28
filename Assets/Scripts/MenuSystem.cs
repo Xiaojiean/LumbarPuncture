@@ -9,6 +9,7 @@ public class MenuSystem : MonoBehaviour, ISpeechHandler {
     public GameObject animationOb;
     public GameObject practice;
     private GameObject current;
+
     public void OnSpeechKeywordRecognized(SpeechEventData eventData)
     {
         if(eventData.RecognizedText.Equals("Manipulation mode"))
@@ -27,18 +28,16 @@ public class MenuSystem : MonoBehaviour, ISpeechHandler {
 
     // Use this for initialization
     void Start () {
-		current = GameObject.Instantiate(manipulation);
+		current = GameObject.Instantiate(practice);
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 
 
     void changeMode(int mode)
     {
         Destroy(current);
+ 
         transform.Find("Board").gameObject.SetActive(false);
         switch (mode)
         {
