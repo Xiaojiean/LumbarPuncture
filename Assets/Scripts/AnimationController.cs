@@ -143,7 +143,8 @@ public class AnimationController : MonoBehaviour {
         modelManipulator.toggleIndividualLayer("Arachnoid");
         modelManipulator.fadeIndividualLayer("Piamater", 0.3f, timeS9 / 2);
         needle.moveSmooth(new Vector3(needle.getXPos(), needle.getYPos() - 0.8f, needle.getZPos()), timeS9);
-        container.moveSmooth(new Vector3(container.getXPos() - 0.7f, container.getYPos(), container.getZPos()), timeS9);
+        container.moveSmooth(new Vector3(container.getXPos() - 0.4f, container.getYPos(), container.getZPos()), timeS9);
+        container.rotateSmooth(Vector3.up, -20f, timeS9);
         container.zoomSmooth(1.5f, timeS9);
     }
 
@@ -151,7 +152,7 @@ public class AnimationController : MonoBehaviour {
     {
         //modelManipulator.toggleIndividualLayer("Piamater");
         container.rotateSmooth(Vector3.up, -90f, timeS10);
-        container.moveSmooth(new Vector3(container.getXPos() + 1.2f, container.getYPos() - 0.3f, container.getZPos()), timeS10);
+        container.moveSmooth(new Vector3(container.getXPos() + 1f, container.getYPos() - 0.3f, container.getZPos()), timeS10);
     }
 
     IEnumerator animationLoop()

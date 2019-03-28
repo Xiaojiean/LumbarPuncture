@@ -330,7 +330,8 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1048627735519344}
-  m_Text: "To change mode, look here and say: \n- Manipulation mode\n- Animation mode"
+  m_Text: "To change mode, look here and say: \n- Manipulation mode\n- Animation mode\n-
+    Practice mode"
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
