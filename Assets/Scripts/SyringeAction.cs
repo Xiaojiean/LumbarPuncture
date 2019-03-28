@@ -23,7 +23,7 @@ public class SyringeAction : MonoBehaviour, IManipulationHandler, INavigationHan
     // Use this for initialization
     void Start()
     {
-        needle = GetComponent<ObjectManipulator>();
+        needle = transform.Find("Needle").GetComponent<ObjectManipulator>();
         
     }
 
@@ -77,6 +77,7 @@ public class SyringeAction : MonoBehaviour, IManipulationHandler, INavigationHan
                 movable = false;
                 InputManager.Instance.PopModalInputHandler();
                 transform.localRotation = Quaternion.Euler(new Vector3(transform.localRotation.eulerAngles.x, 334, 0));
+                needle.moveSmooth(new Vector3(needle.getXPos(),0,needle.getZPos()), 5);
                 break;
           
         }

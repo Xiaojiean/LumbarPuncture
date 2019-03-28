@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class AnimationController : MonoBehaviour {
 
-    private bool animating = false;
-
     ModelManipulator modelManipulator;
 
     ObjectManipulator model;
@@ -70,7 +68,7 @@ public class AnimationController : MonoBehaviour {
 
     public void animationStart()
     {
-        animating = true;
+
         StartCoroutine(animationLoop());
     }
 
@@ -173,6 +171,6 @@ public class AnimationController : MonoBehaviour {
                 yield return new WaitForSeconds(.05f);
             }    
         }
-        animating = false;
+        
     }
 }

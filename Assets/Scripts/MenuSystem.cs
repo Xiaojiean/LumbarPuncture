@@ -28,7 +28,7 @@ public class MenuSystem : MonoBehaviour, ISpeechHandler {
 
     // Use this for initialization
     void Start () {
-		current = GameObject.Instantiate(practice);
+		current = GameObject.Instantiate(manipulation);
     }
 	
 
